@@ -134,7 +134,8 @@ class BadFish(pygame.sprite.Sprite):
 
 
 # Load all game graphics
-background = pygame.image.load(path.join(img_dir, "parallax-space-backgound.png")).convert()
+background_orig = pygame.image.load(path.join(img_dir, "sky.png")).convert()
+background=pygame.transform.scale(background_orig, (480, 600))
 background_rect = background.get_rect()
 player_img = pygame.image.load(path.join(img_dir, "cat.png")).convert()
 player_mini_img = pygame.transform.scale(player_img, (25, 19))
