@@ -9,5 +9,10 @@ right now my code has these functions:
 
 12.11
 brief summary of the game:
-game main screen -> ble/green stage -> catnips&high value fish state
-game clear & restart when the hunger gage is full
+1. game main screen -> ble/green stage -> catnips&high value fish state
+2. game clear & restart when the hunger gage is full
+3. cat grows bigger as it eats fish
+4. catnips reset the hitbox&size of the cat, and gives 20 point each
+5. When cat eats catnip it becomes high and gets a little faster
+6. collide with grey fish->reset score/positions
+
