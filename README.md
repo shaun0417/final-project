@@ -6,3 +6,8 @@ right now my code has these functions:
 1. move cat by left/right keys
 2. score up when cat and colored fish collide
 3. game ends instanly when cat collides with the grey fish
+
+12.11
+brief summary of the game:
+game main screen -> ble/green stage -> catnips&high value fish state
+game clear & restart when the hunger gage is full
