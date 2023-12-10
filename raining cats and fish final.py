@@ -16,8 +16,8 @@ FPS = 60
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (100, 100, 255)
+BLUE = (0, 0, 255)
+LBLUE = (100, 100, 255)
 YELLOW = (255, 255, 0)
 
 # initialize pygame and create window
@@ -72,7 +72,7 @@ def draw_shield_bar(surf, x, y, pct):
     fill = pct
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
-    pygame.draw.rect(surf, BLUE, fill_rect)
+    pygame.draw.rect(surf, LBLUE, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
 class Timer:
@@ -211,7 +211,7 @@ def show_go_screen():
     draw_text(screen,"catnips make cat high, and gives 20 point each.(maximum 2)", 15,WIDTH/2,HEIGHT*3/5,BLACK)
     draw_text(screen,"blue/green - 5 points, purlple - 7 points, yellow- 10 points.",15,WIDTH/2,HEIGHT*2.25 /5,BLACK)
     draw_text(screen, "Do not eat the grey rotten fish or you'll die!!",15,WIDTH/2,HEIGHT*2.5 /5,BLACK)
-    draw_text(screen, "Press a key to feed the cat", 10, WIDTH / 2, HEIGHT * 4 / 5,GREEN)
+    draw_text(screen, "Press a key to feed the cat", 10, WIDTH / 2, HEIGHT * 4 / 5,BLUE)
     pygame.display.flip()
     waiting = True
     while waiting:
