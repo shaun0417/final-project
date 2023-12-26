@@ -16,8 +16,8 @@ FPS = 60
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
-BLUE = (0, 0, 255)
-LBLUE = (100, 100, 255)
+GREEN = (0, 0, 255)
+BLUE = (100, 100, 255)
 YELLOW = (255, 255, 0)
 
 # initialize pygame and create window
@@ -72,7 +72,7 @@ def draw_shield_bar(surf, x, y, pct):
     fill = pct
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
-    pygame.draw.rect(surf, LBLUE, fill_rect)
+    pygame.draw.rect(surf, BLUE, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
 class Timer:
@@ -211,7 +211,21 @@ def show_go_screen():
     draw_text(screen,"catnips make cat high, and gives 20 point each.(maximum 2)", 15,WIDTH/2,HEIGHT*3/5,BLACK)
     draw_text(screen,"blue/green - 5 points, purlple - 7 points, yellow- 10 points.",15,WIDTH/2,HEIGHT*2.25 /5,BLACK)
     draw_text(screen, "Do not eat the grey rotten fish or you'll die!!",15,WIDTH/2,HEIGHT*2.5 /5,BLACK)
-    draw_text(screen, "Press a key to feed the cat", 10, WIDTH / 2, HEIGHT * 4 / 5,BLUE)
+    draw_text(screen, "Press a key to feed the cat", 10, WIDTH / 2, HEIGHT * 4 / 5,GREEN)
+    pygame.display.flip()
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYUP:
+                waiting = False
+
+def show_clear_screen():
+    screen.blit(background, background_rect)
+    draw_text(screen, "Game clear!", 40, WIDTH / 2, HEIGHT / 3, BLACK)
+    draw_text(screen, "Press a key to play again", 10, WIDTH / 2, HEIGHT * 4 / 5,GREEN)
     pygame.display.flip()
     waiting = True
     while waiting:
@@ -264,6 +278,7 @@ score = 0
 pygame.mixer.music.play(loops=-1)
 # Game loop
 game_over = True
+game_clear= False
 running = True
 catnip_fever_timer = Timer()
 
@@ -275,6 +290,27 @@ while running:
         catnip_fever.stop()
         player.catnip_fever_active = False
         show_go_screen()
+        all_sprites = pygame.sprite.Group()
+        fish = pygame.sprite.Group()
+        badfish = pygame.sprite.Group()
+        Catnip = pygame.sprite.Group()
+        player = Player()
+        all_sprites.add(player)
+        for i in range(7):
+            newfish()
+        for i in range(2):
+            newbad()
+        score = 0
+        if score >= 100:
+            newcatnip()
+
+    if game_clear:
+        game_clear = False
+        background = background_orig
+        catnip_fever_timer.start_time = 0
+        catnip_fever.stop()
+        player.catnip_fever_active = False
+        show_clear_screen()
         all_sprites = pygame.sprite.Group()
         fish = pygame.sprite.Group()
         badfish = pygame.sprite.Group()
@@ -303,8 +339,8 @@ while running:
     # check to see if a fish hit the player
     hits = pygame.sprite.spritecollide(player, fish, True, pygame.sprite.collide_circle)
     for hit in hits:
-        player.sizex += 2
-        player.sizey += 2        
+        player.sizex += 1
+        player.sizey += 1        
         if hit.image_orig in [fish_images_small[0], fish_images_small[1]]:
             player.shield += 5
         elif hit.image_orig == fish_images_small[2]:
@@ -312,7 +348,7 @@ while running:
         elif hit.image_orig == fish_images_small[3]:
             player.shield += 10
         if player.shield >= 400:
-            game_over=True
+            game_clear=True
         score += player.shield
         eat_sounds.play()
         player.update_image()
@@ -337,7 +373,7 @@ while running:
                 player.speedx = player.speedx * 2
                 catnip_fever_timer.start()
                 if player.shield >= 400:
-                    game_over=True
+                    game_clear=True
                 score += player.shield
                 eat_sounds.play()
                 catnip_fever.play()
